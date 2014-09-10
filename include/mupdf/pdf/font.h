@@ -48,6 +48,18 @@ struct pdf_vmtx_s
 	short w;
 };
 
+typedef struct myfont_s
+{
+ unsigned char * font;
+ int fontsize;
+}myfont;
+
+typedef struct fontname_file_s
+{
+	char* fontname;
+	char* fontfile;
+}fontname_file;
+
 struct pdf_font_desc_s
 {
 	fz_storable storable;
@@ -104,8 +116,14 @@ void pdf_load_to_unicode(pdf_document *doc, pdf_font_desc *font, char **strings,
 int pdf_font_cid_to_gid(fz_context *ctx, pdf_font_desc *fontdesc, int cid);
 
 unsigned char *pdf_lookup_builtin_font(const char *name, unsigned int *len);
-unsigned char *pdf_lookup_substitute_font(int mono, int serif, int bold, int italic, unsigned int *len);
+unsigned char *pdf_lookup_substitute_font(char *fontname, int mono, int serif, int bold, int italic, unsigned int *len);
 unsigned char *pdf_lookup_substitute_cjk_font(int ros, int serif, int wmode, unsigned int *len, int *index);
+
+unsigned char *read_ttf_file(char *fontname);
+int read_ttf_file_size(char *fontname);
+char* getFonts(char *fontname);
+int NbrOfFonts(const char* Dir);
+char*findfont(int fonts,fontmap** tablefontmap,char*fontname);
 
 pdf_font_desc *pdf_load_type3_font(pdf_document *doc, pdf_obj *rdb, pdf_obj *obj);
 void pdf_load_type3_glyphs(pdf_document *doc, pdf_font_desc *fontdesc, int nestedDepth);

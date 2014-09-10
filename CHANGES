@@ -1,3 +1,8 @@
+List of changes on master since MuPDF 1.5
+
+* Tools:
+	* mudraw: adding the parameter k to set a custom path for fonts ( muDraw [-k PATH/TO/FONTS] ).
+
 List of changes on master since MuPDF 1.3
 
 * Headline changes:

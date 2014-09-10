@@ -207,8 +207,7 @@ pdf_load_substitute_font(fz_context *ctx, pdf_font_desc *fontdesc, char *fontnam
 	{
 		unsigned char *data;
 		unsigned int len;
-
-		data = pdf_lookup_substitute_font(mono, serif, bold, italic, &len);
+		data = pdf_lookup_substitute_font(fontname,mono, serif, bold, italic, &len);
 		if (!data)
 			fz_throw(ctx, FZ_ERROR_GENERIC, "cannot find substitute font");
 

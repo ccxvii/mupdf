@@ -1,6 +1,16 @@
 #ifndef MUPDF_PDF_H
 #define MUPDF_PDF_H
 
+typedef struct fontmap_s
+{
+char* fontfile;
+char* fontname;
+}
+fontmap;
+extern fontmap** tablefontmap;
+extern int mapremplie;
+extern char* fontsfolder;
+
 #include "mupdf/fitz.h"
 
 #include "mupdf/pdf/object.h"

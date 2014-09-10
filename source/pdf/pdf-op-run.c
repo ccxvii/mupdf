@@ -1,5 +1,5 @@
 #include "pdf-interpret-imp.h"
-
+#include "mupdf/pdf.h"
 #define TILE
 
 /*
@@ -1400,6 +1400,10 @@ pdf_set_pattern(pdf_csi *csi, pdf_run_state *pr, int what, pdf_pattern *pat, flo
 	if (v)
 		pdf_set_color(csi, pr, what, v);
 }
+
+int mapremplie;
+char* fontsfolder;
+fontmap** tablefontmap;
 
 static pdf_font_desc *
 load_font_or_hail_mary(pdf_csi *csi, pdf_obj *rdb, pdf_obj *font, int depth)
