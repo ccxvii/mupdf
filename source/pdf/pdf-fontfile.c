@@ -169,7 +169,7 @@ if(mapremplie!=1)
 		    int size = read_ttf_file_size(fontFile);
 
 		    unsigned char *mybuffer = malloc(size + 1);
-		    fread(mybuffer, 1, size, fopen(fontFile, "r+"));
+		    fread(mybuffer, 1, size, fopen(fontFile, "r"));
 		    stbtt_InitFont(&font, mybuffer, 0);
 		    
 		    int platformID = 1;
@@ -236,7 +236,7 @@ return NULL;
 unsigned char *read_ttf_file(char *fontFile)
 {	
 	long int size = read_ttf_file_size(fontFile);
-	FILE *file = fopen(fontFile, "r+");	
+	FILE *file = fopen(fontFile, "r");	
 	unsigned char * in = (unsigned char *) malloc(size);
 	fread(in, sizeof(unsigned char), size, file);
 	fclose(file);
@@ -245,7 +245,7 @@ return (unsigned char *) in;
 
 int read_ttf_file_size(char *fontname)
 {
-	FILE * file = fopen(fontname, "r+");
+	FILE * file = fopen(fontname, "r");
 	if (file == NULL)
 		return 0;
 	fseek(file, 0, SEEK_END);
