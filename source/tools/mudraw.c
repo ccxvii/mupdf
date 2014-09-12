@@ -93,6 +93,7 @@ static const format_cs_table_t format_cs_table[] =
 	in here, as it causes a warning about a possibly malformed comment.
 */
 
+char* fontsfolder = NULL;
 static char *output = NULL;
 static char *format = NULL;
 static float resolution = 72;
@@ -165,6 +166,7 @@ static void usage(void)
 		"\t-l\tprint outline\n"
 		"\t-T\ttest for features (grayscale or color)\n"
 		"\t-i\tignore errors and continue with the next file\n"
+		"\t-k\tselect fonts folder\n"
 		"\tpages\tcomma separated list of ranges\n");
 	exit(1);
 }
@@ -317,12 +319,22 @@ static void drawpage(fz_context *ctx, fz_document *doc, int pagenum)
 	{
 		int iscolor;
 		dev = fz_new_test_device(ctx, &iscolor, 0.02f);
-		if (list)
-			fz_run_display_list(list, dev, &fz_identity, &fz_infinite_rect, NULL);
-		else
-			fz_run_page(doc, page, dev, &fz_identity, &cookie);
-		fz_free_device(dev);
-		dev = NULL;
+		fz_try(ctx)
+		{
+			if (list)
+				fz_run_display_list(list, dev, &fz_identity, &fz_infinite_rect, NULL);
+			else
+				fz_run_page(doc, page, dev, &fz_identity, &cookie);
+		}
+		fz_always(ctx)
+		{
+			fz_free_device(dev);
+			dev = NULL;
+		}
+		fz_catch(ctx)
+		{
+			fz_rethrow(ctx);
+		}
 		printf(" %s", iscolor ? "color" : "grayscale");
 	}
 
@@ -826,7 +838,7 @@ int main(int argc, char **argv)
 
 	fz_var(doc);
 
-	while ((c = fz_getopt(argc, argv, "lo:F:p:r:R:b:c:dgmTtx5G:Iw:h:fiMB:")) != -1)
+	while ((c = fz_getopt(argc, argv, "lo:F:p:r:R:b:k:K:c:dgmTtx5G:Iw:h:fiMB:")) != -1)
 	{
 		switch (c)
 		{
@@ -853,9 +865,13 @@ int main(int argc, char **argv)
 		case 'f': fit = 1; break;
 		case 'I': invert++; break;
 		case 'i': ignore_errors = 1; break;
+		case 'k': fontsfolder=fz_optarg; break;
 		default: usage(); break;
 		}
 	}
+
+	if(fontsfolder == NULL)
+		fontsfolder = "../../resources/fonts/";
 
 	if (fz_optind == argc)
 		usage();
