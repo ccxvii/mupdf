@@ -107,7 +107,7 @@ main(int argc, char **argv)
 			fprintf(fo, "extern const char fz_%s[];\n", filename);
 			fprintf(fo, "asm(\".section .rodata\");\n");
 			fprintf(fo, "asm(\".global fz_%s\");\n", filename);
-			fprintf(fo, "asm(\".type fz_%s STT_OBJECT\");\n", filename);
+			fprintf(fo, "asm(\".type, fz_%s STT_OBJECT\");\n", filename);
 			fprintf(fo, "asm(\".size fz_%s, %d\");\n", filename, size);
 			fprintf(fo, "asm(\".balign 64\");\n");
 			fprintf(fo, "asm(\"fz_%s:\");\n", filename);
